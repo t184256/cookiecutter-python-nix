@@ -8,7 +8,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        python3Packages = pkgs.python3Packages;
+        python3Packages = pkgs.python{{ cookiecutter.min_python.replace('.', '') }}Packages;  # force {{ cookiecutter.min_python }}
 
         pylama = python3Packages.pylama.overridePythonAttrs (_: {
           # https://github.com/klen/pylama/issues/232
