@@ -1,0 +1,15 @@
+{
+    "full_name": "Alexander Sosedkin",
+    "email": "monk@unboiled.info",
+    "github_username": "t184256",
+    "project_name": "example",
+    "nix_name": "{{ cookiecutter.project_name|lower|replace('_','-') }}",
+    "package_name": "{{ cookiecutter.project_name|lower|replace('-','_') }}",
+    "website": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_name }}",
+    "description": "TODO: fill in",
+    "initial_year": "{% now 'utc', '%Y' %}",
+    "version": "0.0.1",
+    "min_python": "3.10",
+    "kind": ["application", "library"],
+    "license_spdx": [ "CC0-1.0", "MIT", "GPL-3.0", "GPL-3.0+" ]
+}

@@ -1,0 +1,37 @@
+name: test
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  test-with-nix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v20
+      - run: pip install cookiecutter
+      - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
+      - run: nix build -v /tmp/test/ex_am-ple
+      - run: nix develop /tmp/test/ex_am-ple -c sh -c 'cd /tmp/test/ex_am-ple && pytest -vvv'
+      - run: nix flake check /tmp/test/ex_am-ple
+
+  test-without-nix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - run: pip install -U setuptools pip
+      - run: pip install cookiecutter
+      - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
+      - run: pip install /tmp/test/ex_am-ple[test]
+      - run: sh -c 'cd /tmp/test/ex_am-ple && pytest -vvv'
+
+  compare-against-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - run: pip install cookiecutter
+      - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
+      - run: diff -ur reference /tmp/test

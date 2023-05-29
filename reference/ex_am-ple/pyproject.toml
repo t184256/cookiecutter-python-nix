@@ -1,0 +1,42 @@
+[project]
+name = "ex_am_ple"
+version = "0.0.1"
+authors = [
+  { name="Alexander Sosedkin", email="monk@unboiled.info" },
+]
+description = "TODO: fill in"
+urls.homepage = "https://github.com/t184256/ex_am-ple"
+readme = "README.md"
+license = {file = "LICENSE"}
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+"License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
+
+]
+requires-python = ">=3.10"
+dependencies = [] # TODO: list python dependencies
+optional-dependencies.test = [
+    "pytest", "coverage", "pytest-cov",
+    "pylama", "pyflakes", "pycodestyle", "pydocstyle", "mypy", "mccabe",
+    "pylint", "eradicate", "vulture",
+]
+
+[project.scripts]
+ex_am_ple = "ex_am_ple:main"
+
+
+[tool.pytest.ini_options]
+addopts = "--pylama --cov --cov-report term-missing --doctest-modules"
+
+[tool.pylama]
+linters = "pylint,pyflakes,pycodestyle,pydocstyle,mypy,mccabe,eradicate,vulture"
+
+[tool.pylama.linter.pydocstyle]
+ignore = "D212"
+
+[tool.coverage]
+run.source = ["ex_am_ple"]
+run.branch = true
+report.exclude_lines = [ "if __name__ == .__main__.:" ]
+report.fail_under = 100
