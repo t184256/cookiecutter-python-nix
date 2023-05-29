@@ -29,12 +29,12 @@ optional-dependencies.test = [
     "pylama", "pyflakes", "pycodestyle", "pydocstyle", "mypy", "mccabe",
     "pylint", "eradicate", "vulture",
 ]
+{%- if cookiecutter.kind == 'application' %}
 
-{% if cookiecutter.kind == 'application' -%}
 [project.scripts]
 {{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}:main"
+{%- endif %}
 
-{% endif %}
 [tool.pytest.ini_options]
 addopts = "--pylama --cov --cov-report term-missing --doctest-modules"
 
