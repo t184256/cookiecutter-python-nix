@@ -63,7 +63,7 @@
             exePath = "/bin/{{ cookiecutter.project_name }}";
           };
 {%- elif cookiecutter.kind == 'application' %}
-          app = flake-utils.lib.mkApp { drv = {{ cookiecutter.nix_name }} };
+          app = flake-utils.lib.mkApp { drv = {{ cookiecutter.nix_name }}; };
 {%- endif %}
         in
         {
