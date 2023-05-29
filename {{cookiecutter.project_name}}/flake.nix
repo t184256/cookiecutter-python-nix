@@ -28,7 +28,9 @@
           nativeBuildInputs = [ python3Packages.setuptools ];
           checkInputs = tools pkgs python3Packages;
         };
+{%- if cookiecutter.kind == 'application' %}
         app = flake-utils.lib.mkApp { drv = {{ cookiecutter.nix_name }}; };
+{%- endif %}
       in
       {
         devShells.default = pkgs.mkShell {
