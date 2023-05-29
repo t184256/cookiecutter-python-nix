@@ -4,7 +4,7 @@
 """Main module of ex_am_ple."""
 
 
-def main():
+def main() -> None:
     """
     Print a greeting.
 

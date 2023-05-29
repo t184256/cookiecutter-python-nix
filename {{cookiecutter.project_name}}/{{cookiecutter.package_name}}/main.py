@@ -4,7 +4,7 @@
 """Main module of {{ cookiecutter.package_name }}."""
 
 
-def main():
+def main() -> None:
     """
     Print a greeting.
 

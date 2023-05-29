@@ -15,7 +15,8 @@
         tools = pkgs: pyPackages: (with pyPackages; [
           pytest pytestCheckHook
           coverage pytest-cov
-          pylama pyflakes pycodestyle pydocstyle mypy mccabe pylint
+          mypy pytest-mypy
+          pylama pyflakes pycodestyle pydocstyle mccabe pylint
           eradicate
         ]);
 

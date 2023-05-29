@@ -25,8 +25,8 @@ classifiers = [
 requires-python = ">={{ cookiecutter.min_python }}"
 dependencies = [] # TODO: list python dependencies
 optional-dependencies.test = [
-    "pytest", "coverage", "pytest-cov",
-    "pylama", "pyflakes", "pycodestyle", "pydocstyle", "mypy", "mccabe",
+    "pytest", "coverage", "pytest-cov", "mypy", "pytest-mypy",
+    "pylama", "pyflakes", "pycodestyle", "pydocstyle", "mccabe",
     "pylint", "eradicate",
 ]
 {%- if cookiecutter.kind == 'application' %}
@@ -36,10 +36,10 @@ optional-dependencies.test = [
 {%- endif %}
 
 [tool.pytest.ini_options]
-addopts = "--pylama --cov --cov-report term-missing --doctest-modules"
+addopts = "--mypy --pylama --cov --cov-report term-missing --doctest-modules"
 
 [tool.pylama]
-linters = "pylint,pyflakes,pycodestyle,pydocstyle,mypy,mccabe,eradicate"
+linters = "pylint,pyflakes,pycodestyle,pydocstyle,mccabe,eradicate"
 
 [tool.pylama.linter.pydocstyle]
 ignore = "D212"
