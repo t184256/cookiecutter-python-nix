@@ -10,21 +10,7 @@
         pytest pytestCheckHook
         coverage pytest-cov
         mypy pytest-mypy
-        (pkgs.callPackage pylama-package { python3Packages = pyPackages; })
-        pyflakes pycodestyle pydocstyle mccabe pylint
-        eradicate
-      ]);
-
-      pylama-package = {python3Packages, fetchpatch}:
-        python3Packages.pylama.overridePythonAttrs (_: {
-          # https://github.com/klen/pylama/issues/232
-          patches = [
-            (fetchpatch {
-              url = "https://github.com/klen/pylama/pull/233.patch";
-              hash = "sha256-jaVG/vuhkPiHEL+28Pf1VuClBVlFtlzDohT0mZasL04=";
-            })
-          ];
-        });
+      ] ++ [pkgs.ruff]);
 
       {{ cookiecutter.nix_name }}-package = {pkgs, python3Packages}:
         python3Packages.buildPythonPackage {

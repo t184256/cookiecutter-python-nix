@@ -11,4 +11,4 @@ import {{ cookiecutter.package_name }}.main
 def test_main(capsys: _pytest.capture.CaptureFixture[str]) -> None:
     """Test that main() prints 'Hello world!'."""
     {{ cookiecutter.package_name }}.main.main()
-    assert capsys.readouterr().out == "Hello world!\n"
+    assert capsys.readouterr().out == 'Hello world!\n'

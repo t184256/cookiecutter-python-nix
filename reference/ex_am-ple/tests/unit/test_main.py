@@ -11,4 +11,4 @@ import ex_am_ple.main
 def test_main(capsys: _pytest.capture.CaptureFixture[str]) -> None:
     """Test that main() prints 'Hello world!'."""
     ex_am_ple.main.main()
-    assert capsys.readouterr().out == "Hello world!\n"
+    assert capsys.readouterr().out == 'Hello world!\n'
