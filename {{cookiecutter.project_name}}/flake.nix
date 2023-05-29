@@ -40,8 +40,10 @@
         };
         packages.{{ cookiecutter.nix_name }} = {{ cookiecutter.nix_name }};
         packages.default = {{ cookiecutter.nix_name }};
+{%- if cookiecutter.kind == 'application' %}
         apps.{{ cookiecutter.nix_name }} = app;
         apps.default = app;
+{%- endif %}
       }
     );
 }
