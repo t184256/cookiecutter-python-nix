@@ -27,7 +27,7 @@ dependencies = [] # TODO: list python dependencies
 optional-dependencies.test = [
     "pytest", "coverage", "pytest-cov",
     "pylama", "pyflakes", "pycodestyle", "pydocstyle", "mypy", "mccabe",
-    "pylint", "eradicate", "vulture",
+    "pylint", "eradicate",
 ]
 {%- if cookiecutter.kind == 'application' %}
 
@@ -39,7 +39,7 @@ optional-dependencies.test = [
 addopts = "--pylama --cov --cov-report term-missing --doctest-modules"
 
 [tool.pylama]
-linters = "pylint,pyflakes,pycodestyle,pydocstyle,mypy,mccabe,eradicate,vulture"
+linters = "pylint,pyflakes,pycodestyle,pydocstyle,mypy,mccabe,eradicate"
 
 [tool.pylama.linter.pydocstyle]
 ignore = "D212"

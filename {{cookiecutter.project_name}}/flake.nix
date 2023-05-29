@@ -16,7 +16,7 @@
           pytest pytestCheckHook
           coverage pytest-cov
           pylama pyflakes pycodestyle pydocstyle mypy mccabe pylint
-          eradicate vulture
+          eradicate
         ]);
 
         {{ cookiecutter.nix_name }} = python3Packages.buildPythonPackage {
