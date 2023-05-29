@@ -18,7 +18,8 @@ optional-dependencies.test = [
     "pytest",
     "coverage", "pytest-cov",
     "mypy", "pytest-mypy",
-    "ruff"
+    "yapf",
+    "ruff",
 ]
 
 [tool.pytest.ini_options]
@@ -32,6 +33,9 @@ report.fail_under = 100
 
 [tool.mypy]
 strict = true
+
+[tool.yapf]
+BLANK_LINE_BEFORE_MODULE_DOCSTRING = true
 
 [tool.ruff]
 line-length = 79
