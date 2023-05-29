@@ -9,6 +9,17 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         python3Packages = pkgs.python3Packages;
+
+        pylama = python3Packages.pylama.overridePythonAttrs (_: {
+          # https://github.com/klen/pylama/issues/232
+          patches = [
+            (pkgs.fetchpatch {
+              url = "https://github.com/klen/pylama/pull/233.patch";
+              hash = "sha256-jaVG/vuhkPiHEL+28Pf1VuClBVlFtlzDohT0mZasL04=";
+            })
+          ];
+        });
+
         deps = pyPackages: with pyPackages; [
           # TODO: list python dependencies
         ];

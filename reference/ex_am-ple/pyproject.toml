@@ -30,7 +30,7 @@ addopts = "--mypy --pylama --cov --cov-report term-missing --doctest-modules"
 linters = "pylint,pyflakes,pycodestyle,pydocstyle,mccabe,eradicate"
 
 [tool.pylama.linter.pydocstyle]
-ignore = "D212"
+ignore = "D212,D203,D105"
 
 [tool.coverage]
 run.source = ["ex_am_ple"]
