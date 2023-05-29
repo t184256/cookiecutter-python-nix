@@ -14,11 +14,13 @@ jobs:
       - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
       - run: nix build -v /tmp/test/ex_am-ple
       - run: nix develop /tmp/test/ex_am-ple -c sh -c 'cd /tmp/test/ex_am-ple && pytest -vvv'
+      - run: nix develop /tmp/test/ex_am-ple -c sh -c 'cd /tmp/test/ex_am-ple && ruff .'
       - run: nix flake check /tmp/test/ex_am-ple
       - run: nix run /tmp/test/ex_am-ple
       - run: cookiecutter . --no-input -o /tmp/test project_name=l_i-b initial_year=2023 kind=library
       - run: nix build -v /tmp/test/l_i-b
       - run: nix develop /tmp/test/l_i-b -c sh -c 'cd /tmp/test/l_i-b && pytest -vvv'
+      - run: nix develop /tmp/test/l_i-b -c sh -c 'cd /tmp/test/l_i-b && ruff .'
       - run: nix flake check /tmp/test/l_i-b
 
   test-without-nix:
@@ -31,9 +33,10 @@ jobs:
       - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
       - run: pip install /tmp/test/ex_am-ple[test]
       - run: sh -c 'cd /tmp/test/ex_am-ple && pytest -vvv'
+      - run: sh -c 'cd /tmp/test/ex_am-ple && ruff .'
       - run: cookiecutter . --no-input -o /tmp/test project_name=l_i-b initial_year=2023 kind=library
       - run: pip install /tmp/test/l_i-b[test]
-      - run: sh -c 'cd /tmp/test/l_i-b && pytest -vvv'
+      - run: sh -c 'cd /tmp/test/l_i-b && ruff .'
 
   compare-against-reference:
     runs-on: ubuntu-latest

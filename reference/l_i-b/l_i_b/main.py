@@ -5,13 +5,12 @@
 
 
 def main() -> None:
-    """
-    Print a greeting.
+    """Print a greeting.
 
     >>> main()
     Hello world!
     """
-    print('Hello world!')
+    print('Hello world!')  # noqa: print
 
 
 if __name__ == '__main__':
