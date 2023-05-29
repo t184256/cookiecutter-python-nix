@@ -35,6 +35,9 @@
           propagatedBuildInputs = deps python3Packages;
           nativeBuildInputs = [ python3Packages.setuptools ];
           checkInputs = tools pkgs python3Packages;
+{%- if cookiecutter.kind == 'application' and cookiecutter.package_name != cookiecutter.project_name %}
+          postInstall = "mv $out/bin/{{ cookiecutter.package_name }} $out/bin/{{ cookiecutter.project_name }}";
+{%- endif %}
         };
 
       overlay = final: prev: {
@@ -54,8 +57,13 @@
           {{ cookiecutter.nix_name }} = pkgs.callPackage {{ cookiecutter.nix_name }}-package {
             python3Packages = defaultPython3Packages;
           };
-{%- if cookiecutter.kind == 'application' %}
-          app = flake-utils.lib.mkApp { drv = {{ cookiecutter.nix_name }}; };
+{%- if cookiecutter.kind == 'application' and cookiecutter.package_name != cookiecutter.project_name %}
+          app = flake-utils.lib.mkApp {
+            drv = {{ cookiecutter.nix_name }};
+            exePath = "/bin/{{ cookiecutter.project_name }}";
+          };
+{%- elif cookiecutter.kind == 'application' %}
+          app = flake-utils.lib.mkApp { drv = {{ cookiecutter.nix_name }} };
 {%- endif %}
         in
         {

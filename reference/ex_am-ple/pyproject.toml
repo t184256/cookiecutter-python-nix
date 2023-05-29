@@ -21,7 +21,7 @@ optional-dependencies.test = [
 ]
 
 [project.scripts]
-ex_am_ple = "ex_am_ple:main"
+ex_am_ple = "ex_am_ple.main:main"
 
 [tool.pytest.ini_options]
 addopts = "--mypy --pylama --cov --cov-report term-missing --doctest-modules"

@@ -32,7 +32,7 @@ optional-dependencies.test = [
 {%- if cookiecutter.kind == 'application' %}
 
 [project.scripts]
-{{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}:main"
+{{ cookiecutter.package_name }} = "{{ cookiecutter.package_name }}.main:main"
 {%- endif %}
 
 [tool.pytest.ini_options]

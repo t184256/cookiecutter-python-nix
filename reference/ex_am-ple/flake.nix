@@ -35,6 +35,7 @@
           propagatedBuildInputs = deps python3Packages;
           nativeBuildInputs = [ python3Packages.setuptools ];
           checkInputs = tools pkgs python3Packages;
+          postInstall = "mv $out/bin/ex_am_ple $out/bin/ex_am-ple";
         };
 
       overlay = final: prev: {
@@ -54,7 +55,10 @@
           ex-am-ple = pkgs.callPackage ex-am-ple-package {
             python3Packages = defaultPython3Packages;
           };
-          app = flake-utils.lib.mkApp { drv = ex-am-ple; };
+          app = flake-utils.lib.mkApp {
+            drv = ex-am-ple;
+            exePath = "/bin/ex_am-ple";
+          };
         in
         {
           devShells.default = pkgs.mkShell {
