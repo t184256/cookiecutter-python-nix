@@ -35,7 +35,7 @@ ignore = "D212,D203,D105"
 [tool.coverage]
 run.source = ["ex_am_ple"]
 run.branch = true
-report.exclude_lines = [ "if __name__ == .__main__.:" ]
+report.exclude_lines = [ "# pragma: no cover", "if __name__ == .__main__.:" ]
 report.fail_under = 100
 
 [tool.mypy]
