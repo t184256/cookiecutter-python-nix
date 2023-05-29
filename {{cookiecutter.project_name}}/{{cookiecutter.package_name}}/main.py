@@ -10,7 +10,7 @@ def main() -> None:
     >>> main()
     Hello world!
     """
-    print('Hello world!')  # noqa: print
+    print('Hello world!')  # noqa: T201
 
 
 if __name__ == '__main__':
