@@ -10,8 +10,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v20
-    - run: nix build
     - run: nix develop -c pytest -vvv
+    - run: nix build
     - run: nix flake check
 
   unit:
@@ -19,6 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - run: pip3 install -U setuptools pip
       - run: pip3 install .[test]
       - run: pytest -vvv
