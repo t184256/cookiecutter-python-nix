@@ -26,9 +26,9 @@
           ];
         });
 
-      ex-am-ple-package = {pkgs, python3Packages}:
+      l-i-b-package = {pkgs, python3Packages}:
         python3Packages.buildPythonPackage {
-          pname = "ex-am-ple";
+          pname = "l-i-b";
           version = "0.0.1";
           src = ./.;
           format = "pyproject";
@@ -40,7 +40,7 @@
       overlay = final: prev: {
         pythonPackagesExtensions =
           prev.pythonPackagesExtensions ++ [(pyFinal: pyPrev: {
-            ex-am-ple = final.callPackage ex-am-ple-package {
+            l-i-b = final.callPackage l-i-b-package {
               python3Packages = pyFinal;
             };
           })];
@@ -51,10 +51,9 @@
           pkgs = import nixpkgs { inherit system; overlays = [ overlay ]; };
           defaultPython3Packages = pkgs.python310Packages;  # force 3.10
 
-          ex-am-ple = pkgs.callPackage ex-am-ple-package {
+          l-i-b = pkgs.callPackage l-i-b-package {
             python3Packages = defaultPython3Packages;
           };
-          app = flake-utils.lib.mkApp { drv = ex-am-ple; };
         in
         {
           devShells.default = pkgs.mkShell {
@@ -64,10 +63,8 @@
               export PYTHONASYNCIODEBUG=1 PYTHONWARNINGS=error
             '';
           };
-          packages.ex-am-ple = ex-am-ple;
-          packages.default = ex-am-ple;
-          apps.ex-am-ple = app;
-          apps.default = app;
+          packages.l-i-b = l-i-b;
+          packages.default = l-i-b;
         }
     ) // { overlays.default = overlay; };
 }

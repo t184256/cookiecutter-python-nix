@@ -1,0 +1,6 @@
+.direnv
+result
+*.pyc
+**/__pycache__
+htmlcov/
+.coverage

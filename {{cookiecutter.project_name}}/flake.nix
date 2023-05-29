@@ -1,37 +1,33 @@
 {
   description = "{{ cookiecutter.description }}";
 
-  inputs.flake-utils.url = "github:numtide/flake-utils";
-  #inputs.nixpkgs.url = "github:NixOS/nixpkgs";
-
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        python3Packages = pkgs.python{{ cookiecutter.min_python.replace('.', '') }}Packages;  # force {{ cookiecutter.min_python }}
+    let
+      deps = pyPackages: with pyPackages; [
+        # TODO: list python dependencies
+      ];
+      tools = pkgs: pyPackages: (with pyPackages; [
+        pytest pytestCheckHook
+        coverage pytest-cov
+        mypy pytest-mypy
+        (pkgs.callPackage pylama-package { python3Packages = pyPackages; })
+        pyflakes pycodestyle pydocstyle mccabe pylint
+        eradicate
+      ]);
 
-        pylama = python3Packages.pylama.overridePythonAttrs (_: {
+      pylama-package = {python3Packages, fetchpatch}:
+        python3Packages.pylama.overridePythonAttrs (_: {
           # https://github.com/klen/pylama/issues/232
           patches = [
-            (pkgs.fetchpatch {
+            (fetchpatch {
               url = "https://github.com/klen/pylama/pull/233.patch";
               hash = "sha256-jaVG/vuhkPiHEL+28Pf1VuClBVlFtlzDohT0mZasL04=";
             })
           ];
         });
 
-        deps = pyPackages: with pyPackages; [
-          # TODO: list python dependencies
-        ];
-        tools = pkgs: pyPackages: (with pyPackages; [
-          pytest pytestCheckHook
-          coverage pytest-cov
-          mypy pytest-mypy
-          pylama pyflakes pycodestyle pydocstyle mccabe pylint
-          eradicate
-        ]);
-
-        {{ cookiecutter.nix_name }} = python3Packages.buildPythonPackage {
+      {{ cookiecutter.nix_name }}-package = {pkgs, python3Packages}:
+        python3Packages.buildPythonPackage {
           pname = "{{ cookiecutter.nix_name }}";
           version = "{{ cookiecutter.version }}";
           src = ./.;
@@ -40,24 +36,42 @@
           nativeBuildInputs = [ python3Packages.setuptools ];
           checkInputs = tools pkgs python3Packages;
         };
+
+      overlay = final: prev: {
+        pythonPackagesExtensions =
+          prev.pythonPackagesExtensions ++ [(pyFinal: pyPrev: {
+            {{ cookiecutter.nix_name }} = final.callPackage {{ cookiecutter.nix_name }}-package {
+              python3Packages = pyFinal;
+            };
+          })];
+      };
+    in
+      flake-utils.lib.eachDefaultSystem (system:
+        let
+          pkgs = import nixpkgs { inherit system; overlays = [ overlay ]; };
+          defaultPython3Packages = pkgs.python{{ cookiecutter.min_python.replace('.', '') }}Packages;  # force {{ cookiecutter.min_python }}
+
+          {{ cookiecutter.nix_name }} = pkgs.callPackage {{ cookiecutter.nix_name }}-package {
+            python3Packages = defaultPython3Packages;
+          };
 {%- if cookiecutter.kind == 'application' %}
-        app = flake-utils.lib.mkApp { drv = {{ cookiecutter.nix_name }}; };
+          app = flake-utils.lib.mkApp { drv = {{ cookiecutter.nix_name }}; };
 {%- endif %}
-      in
-      {
-        devShells.default = pkgs.mkShell {
-          buildInputs = [(python3Packages.python.withPackages deps)];
-          nativeBuildInputs = tools pkgs python3Packages;
-          shellHook = ''
-            export PYTHONDEVMODE=1 PYTHONWARNINGS=error PYTHONTRACEMALLOC=1
-          '';
-        };
-        packages.{{ cookiecutter.nix_name }} = {{ cookiecutter.nix_name }};
-        packages.default = {{ cookiecutter.nix_name }};
+        in
+        {
+          devShells.default = pkgs.mkShell {
+            buildInputs = [(defaultPython3Packages.python.withPackages deps)];
+            nativeBuildInputs = tools pkgs defaultPython3Packages;
+            shellHook = ''
+              export PYTHONASYNCIODEBUG=1 PYTHONWARNINGS=error
+            '';
+          };
+          packages.{{ cookiecutter.nix_name }} = {{ cookiecutter.nix_name }};
+          packages.default = {{ cookiecutter.nix_name }};
 {%- if cookiecutter.kind == 'application' %}
-        apps.{{ cookiecutter.nix_name }} = app;
-        apps.default = app;
+          apps.{{ cookiecutter.nix_name }} = app;
+          apps.default = app;
 {%- endif %}
-      }
-    );
+        }
+    ) // { overlays.default = overlay; };
 }
