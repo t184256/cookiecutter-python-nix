@@ -7,18 +7,18 @@ authors = [
 description = "{{ cookiecutter.description }}"
 urls.homepage = "{{ cookiecutter.website }}"
 readme = "README.md"
-{% if cookiecutter.license_spdx -%}
+{%- if cookiecutter.license_spdx %}
 license = {file = "LICENSE"}
-{% endif %}
+{%- endif %}
 classifiers = [
     "Programming Language :: Python :: 3",
-{% if cookiecutter.license_spdx == 'CC0-1.0' -%}
+{%- if cookiecutter.license_spdx == 'CC0-1.0' %}
     "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
-{% elif cookiecutter.license_spdx == 'MIT' -%}
+{%- elif cookiecutter.license_spdx == 'MIT' %}
     "License :: OSI Approved :: MIT License"
-{% elif cookiecutter.license_spdx == 'GPL-3.0' -%}
+{%- elif cookiecutter.license_spdx == 'GPL-3.0' %}
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
-{% elif cookiecutter.license_spdx == 'GPL-3.0+' -%}
+{%- elif cookiecutter.license_spdx == 'GPL-3.0+' %}
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
 {% endif %}
 ]
