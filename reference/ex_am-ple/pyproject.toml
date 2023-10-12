@@ -42,6 +42,7 @@ BLANK_LINE_BEFORE_MODULE_DOCSTRING = true
 
 [tool.ruff]
 line-length = 79
+preview = true
 select = [ "ALL" ]
 ignore = [
   "D105",  # undocumented-magic-method
