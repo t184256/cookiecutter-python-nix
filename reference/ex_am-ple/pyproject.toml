@@ -54,3 +54,4 @@ per-file-ignores."tests/**" = [
 ]
 flake8-quotes.inline-quotes = "single"
 flake8-quotes.multiline-quotes = "single"
+flake8-copyright.notice-rgx = '# SPDX-FileCopyrightText: 2023 Alexander Sosedkin <monk@unboiled.info>\n# SPDX-License-Identifier: CC0-1.0\n'

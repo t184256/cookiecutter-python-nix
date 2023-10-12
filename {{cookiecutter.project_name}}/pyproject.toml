@@ -66,3 +66,4 @@ per-file-ignores."tests/**" = [
 ]
 flake8-quotes.inline-quotes = "single"
 flake8-quotes.multiline-quotes = "single"
+flake8-copyright.notice-rgx = '# SPDX-FileCopyrightText: {{ cookiecutter.initial_year }} {{ cookiecutter.full_name }} <{{ cookiecutter.email }}>\n# SPDX-License-Identifier: {{ cookiecutter.license_spdx }}\n'
