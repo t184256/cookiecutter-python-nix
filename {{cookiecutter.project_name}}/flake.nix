@@ -10,7 +10,6 @@
         pytest pytestCheckHook
         coverage pytest-cov
         mypy pytest-mypy
-        yapf
       ] ++ [pkgs.ruff]);
 
       {{ cookiecutter.nix_name }}-package = {pkgs, python3Packages}:

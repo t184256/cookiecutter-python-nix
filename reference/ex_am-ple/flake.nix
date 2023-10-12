@@ -10,7 +10,6 @@
         pytest pytestCheckHook
         coverage pytest-cov
         mypy pytest-mypy
-        yapf
       ] ++ [pkgs.ruff]);
 
       ex-am-ple-package = {pkgs, python3Packages}:
