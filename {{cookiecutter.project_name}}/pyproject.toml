@@ -30,6 +30,9 @@ optional-dependencies.test = [
   "mypy", "pytest-mypy",
   "ruff",
 ]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
 {%- if cookiecutter.kind == 'application' %}
 
 [project.scripts]

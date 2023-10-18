@@ -21,6 +21,9 @@ optional-dependencies.test = [
   "ruff",
 ]
 
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
+
 [project.scripts]
 ex_am_ple = "ex_am_ple.main:main"
 

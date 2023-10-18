@@ -21,6 +21,9 @@ optional-dependencies.test = [
   "ruff",
 ]
 
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
+
 [tool.pytest.ini_options]
 addopts = "--mypy --cov --cov-report term-missing --doctest-modules"
 
