@@ -33,7 +33,11 @@ addopts = "--mypy --cov --cov-report term-missing --doctest-modules"
 [tool.coverage]
 run.source = [ "ex_am_ple" ]
 run.branch = true
-report.exclude_lines = [ "# pragma: no cover", "if __name__ == .__main__.:" ]
+report.exclude_lines = [
+  "# pragma: no cover",
+  "if __name__ == .__main__.:",
+  "...  # overload",
+]
 report.fail_under = 100
 
 [tool.mypy]
