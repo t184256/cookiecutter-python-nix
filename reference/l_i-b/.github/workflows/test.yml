@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v20
+    - uses: DeterminateSystems/nix-installer-action@main
+    - uses: DeterminateSystems/magic-nix-cache-action@main
+    - run: nix build --no-link
     - run: nix develop -c pytest -vvv
     - run: nix develop -c ruff check .
     - run: nix develop -c ruff format --check .
-    - run: nix build
     - run: nix flake check
 
   pytest:
