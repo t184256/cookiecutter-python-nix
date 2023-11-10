@@ -1,7 +1,7 @@
 {
   description = "{{ cookiecutter.description }}";
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils }@inputs:
     let
       deps = pyPackages: with pyPackages; [
         # TODO: list python dependencies
@@ -34,15 +34,17 @@
             };
           })];
       };
+
+      overlay-all = nixpkgs.lib.composeManyExtensions [
+        overlay
+      ];
     in
       flake-utils.lib.eachDefaultSystem (system:
         let
-          pkgs = import nixpkgs { inherit system; overlays = [ overlay ]; };
+          pkgs = import nixpkgs { inherit system; overlays = [ overlay-all ]; };
           defaultPython3Packages = pkgs.python{{ cookiecutter.min_python.replace('.', '') }}Packages;  # force {{ cookiecutter.min_python }}
 
-          {{ cookiecutter.nix_name }} = pkgs.callPackage {{ cookiecutter.nix_name }}-package {
-            python3Packages = defaultPython3Packages;
-          };
+          {{ cookiecutter.nix_name }} = defaultPython3Packages.{{ cookiecutter.nix_name }};
 {%- if cookiecutter.kind == 'application' and cookiecutter.package_name != cookiecutter.project_name %}
           app = flake-utils.lib.mkApp {
             drv = {{ cookiecutter.nix_name }};

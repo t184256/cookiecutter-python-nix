@@ -1,7 +1,7 @@
 {
   description = "TODO: fill in";
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils }@inputs:
     let
       deps = pyPackages: with pyPackages; [
         # TODO: list python dependencies
@@ -31,15 +31,17 @@
             };
           })];
       };
+
+      overlay-all = nixpkgs.lib.composeManyExtensions [
+        overlay
+      ];
     in
       flake-utils.lib.eachDefaultSystem (system:
         let
-          pkgs = import nixpkgs { inherit system; overlays = [ overlay ]; };
+          pkgs = import nixpkgs { inherit system; overlays = [ overlay-all ]; };
           defaultPython3Packages = pkgs.python310Packages;  # force 3.10
 
-          l-i-b = pkgs.callPackage l-i-b-package {
-            python3Packages = defaultPython3Packages;
-          };
+          l-i-b = defaultPython3Packages.l-i-b;
         in
         {
           devShells.default = pkgs.mkShell {
