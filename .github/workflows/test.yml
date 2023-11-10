@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v20
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: pip install cookiecutter
       - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
       - run: nix build -v /tmp/test/ex_am-ple
