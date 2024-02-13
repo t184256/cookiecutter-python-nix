@@ -43,20 +43,18 @@ strict = true
 [tool.ruff]
 line-length = 79
 preview = true
-select = [ "ALL" ]
-ignore = [
+lint.select = [ "ALL" ]
+lint.ignore = [
   "D105",  # undocumented-magic-method
   "D203",  # one-blank-line-before-class
   "D213",  # multi-line-summary-second-line
 ]
-per-file-ignores."tests/**" = [
+lint.per-file-ignores."tests/**" = [
   "INP001",  # implicit-namespace-package
   "S101",  # assert
 ]
-flake8-quotes.inline-quotes = "single"
-flake8-quotes.multiline-quotes = "single"
-flake8-copyright.notice-rgx = '# SPDX-FileCopyrightText: 2023 Alexander Sosedkin <monk@unboiled.info>\n# SPDX-License-Identifier: CC0-1.0\n'
-
-[tool.ruff.format]
-quote-style = "single"
-preview = true
+lint.flake8-quotes.inline-quotes = "single"
+lint.flake8-quotes.multiline-quotes = "single"
+lint.flake8-copyright.notice-rgx = '# SPDX-FileCopyrightText: 2023 Alexander Sosedkin <monk@unboiled.info>\n# SPDX-License-Identifier: CC0-1.0\n'
+format.quote-style = "single"
+format.preview = true
