@@ -8,7 +8,7 @@ jobs:
   test-with-nix:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: pip install cookiecutter
@@ -29,8 +29,8 @@ jobs:
   test-without-nix:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
       - run: pip install -U setuptools pip
       - run: pip install cookiecutter
       - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
@@ -47,8 +47,8 @@ jobs:
   compare-against-reference:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
       - run: pip install cookiecutter
       - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
       - run: cookiecutter . --no-input -o /tmp/test project_name=l_i-b initial_year=2023 kind=library
