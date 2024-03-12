@@ -3,24 +3,33 @@
 
   outputs = { self, nixpkgs, flake-utils }@inputs:
     let
-      deps = pyPackages: with pyPackages; [
+      pyDeps = pyPackages: with pyPackages; [
         # TODO: list python dependencies
       ];
-      tools = pkgs: pyPackages: (with pyPackages; [
+      pyTestDeps = pyPackages: with pyPackages; [
         pytest pytestCheckHook
         coverage pytest-cov
-        mypy pytest-mypy
-      ] ++ [pkgs.ruff]);
+      ];
+      pyTools = pyPackages: with pyPackages; [ mypy ];
+
+      tools = pkgs: with pkgs; [
+        pre-commit
+        ruff
+        codespell
+        actionlint
+        python3Packages.pre-commit-hooks
+      ];
 
       {{ cookiecutter.nix_name }}-package = {pkgs, python3Packages}:
         python3Packages.buildPythonPackage {
           pname = "{{ cookiecutter.nix_name }}";
           version = "{{ cookiecutter.version }}";
           src = ./.;
+          disabled = python3Packages.pythonOlder "{{ cookiecutter.min_python }}";
           format = "pyproject";
-          propagatedBuildInputs = deps python3Packages;
-          nativeBuildInputs = [ python3Packages.setuptools ];
-          checkInputs = tools pkgs python3Packages;
+          build-system = [ python3Packages.setuptools ];
+          propagatedBuildInputs = pyDeps python3Packages;
+          checkInputs = pyTestDeps python3Packages;
 {%- if cookiecutter.kind == 'application' and cookiecutter.package_name != cookiecutter.project_name %}
           postInstall = "mv $out/bin/{{ cookiecutter.package_name }} $out/bin/{{ cookiecutter.project_name }}";
 {%- endif %}
@@ -56,9 +65,17 @@
         in
         {
           devShells.default = pkgs.mkShell {
-            buildInputs = [(defaultPython3Packages.python.withPackages deps)];
-            nativeBuildInputs = tools pkgs defaultPython3Packages;
+            buildInputs = [(defaultPython3Packages.python.withPackages (
+              pyPkgs: pyDeps pyPkgs ++ pyTestDeps pyPkgs ++ pyTools pyPkgs
+            ))];
+            nativeBuildInputs = [(pkgs.buildEnv {
+              name = "{{ cookiecutter.nix_name }}-tools-env";
+              pathsToLink = [ "/bin" ];
+              paths = tools pkgs;
+            })];
             shellHook = ''
+              [ -e .git/hooks/pre-commit ] || \
+                echo "suggestion: pre-commit install --install-hooks" >&2
               export PYTHONASYNCIODEBUG=1 PYTHONWARNINGS=error
             '';
           };

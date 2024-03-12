@@ -17,8 +17,14 @@ dependencies = [] # TODO: list python dependencies
 optional-dependencies.test = [
   "pytest",
   "coverage", "pytest-cov",
-  "mypy", "pytest-mypy",
+]
+optional-dependencies.lint = [
+  "pre-commit",
+  "mypy",
   "ruff",
+  "codespell",
+  "actionlint-py",
+  "pre-commit-hooks",
 ]
 
 [tool.setuptools.package-data]
@@ -28,7 +34,7 @@ optional-dependencies.test = [
 ex_am_ple = "ex_am_ple.main:main"
 
 [tool.pytest.ini_options]
-addopts = "--mypy --cov --cov-report term-missing --doctest-modules"
+addopts = "--cov --cov-report term-missing --doctest-modules"
 
 [tool.coverage]
 run.source = [ "ex_am_ple" ]

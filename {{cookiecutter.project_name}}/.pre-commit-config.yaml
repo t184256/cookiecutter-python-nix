@@ -1,0 +1,168 @@
+# this project uses pre-commit framework as a dispatcher for linters.
+# only local, language=system hooks are allowed,
+# and they must be provided by both flake.nix and pyproject.toml.
+
+# usage scenarios:
+# 1. CI runs `pre-commit run -av`
+# 2. feel free to `pre-commit install --install-hooks`
+# 3. and/or run it manually as you see fit
+
+# consider adding more!
+
+repos:
+- repo: local
+  hooks:
+
+  - id: mypy
+    name: mypy
+    entry: mypy . --exclude '^(\./|)build/'
+    pass_filenames: false
+    language: system
+    always_run: true
+    types_or: [python, pyi]
+
+  - id: ruff check
+    name: ruff check
+    entry: ruff check
+    language: system
+    types_or: [python, pyi]
+
+  - id: ruff format
+    name: ruff format
+    entry: ruff format --check
+    language: system
+    types_or: [python, pyi]
+
+  - id: codespell
+    name: codespell
+    entry: codespell --builtin clear,rare,informal,usage,code,names,en-GB_to_en-US
+    language: system
+
+  - id: actionlint
+    name: actionlint
+    entry: actionlint
+    types: ["yaml"]
+    files: ^\.github/workflows/
+    language: system
+
+  # a selection of hooks from pre-commit-hooks
+
+  - id: check-added-large-files
+    name: check for added large files
+    description: prevents giant files from being committed.
+    entry: check-added-large-files
+    language: system
+    stages: [commit, push, manual]
+
+  - id: check-case-conflict
+    name: check for case conflicts
+    description: checks for files that would conflict in case-insensitive filesystems.
+    entry: check-case-conflict
+    language: system
+
+  - id: check-executables-have-shebangs
+    name: check that executables have shebangs
+    description: ensures that (non-binary) executables have a shebang.
+    entry: check-executables-have-shebangs
+    language: system
+    types: [text, executable]
+    stages: [commit, push, manual]
+
+  - id: check-json
+    name: check json
+    description: checks json files for parseable syntax.
+    entry: check-json
+    language: system
+    types: [json]
+
+  - id: check-merge-conflict
+    name: check for merge conflicts
+    description: checks for files that contain merge conflict strings.
+    entry: check-merge-conflict
+    language: system
+    types: [text]
+
+  - id: check-shebang-scripts-are-executable
+    name: check that scripts with shebangs are executable
+    description: ensures that (non-binary) files with a shebang are executable.
+    entry: check-shebang-scripts-are-executable
+    language: system
+    types: [text]
+    stages: [commit, push, manual]
+
+  - id: check-symlinks
+    name: check for broken symlinks
+    description: checks for symlinks which do not point to anything.
+    entry: check-symlinks
+    language: system
+    types: [symlink]
+
+  - id: check-toml
+    name: check toml
+    description: checks toml files for parseable syntax.
+    entry: check-toml
+    language: system
+    types: [toml]
+
+  - id: check-vcs-permalinks
+    name: check vcs permalinks
+    description: ensures that links to vcs websites are permalinks.
+    entry: check-vcs-permalinks
+    language: system
+    types: [text]
+
+  - id: check-xml
+    name: check xml
+    description: checks xml files for parseable syntax.
+    entry: check-xml
+    language: system
+    types: [xml]
+
+  - id: check-yaml
+    name: check yaml
+    description: checks yaml files for parseable syntax.
+    entry: check-yaml
+    language: system
+    types: [yaml]
+
+  - id: destroyed-symlinks
+    name: check for destroyed symlinks
+    description: detects symlinks which are changed to regular files with a content of a path which that symlink was pointing to.
+    entry: destroyed-symlinks
+    language: system
+    types: [file]
+
+  - id: detect-aws-credentials
+    name: check for aws credentials
+    description: detects *your* aws credentials from the aws cli credentials file.
+    entry: detect-aws-credentials --allow-missing-credentials
+    language: system
+    types: [text]
+
+  - id: detect-private-key
+    name: check for private key
+    description: detects the presence of private keys.
+    entry: detect-private-key
+    language: system
+    types: [text]
+
+  - id: forbid-submodules
+    name: check for submodules
+    description: forbids any submodules in the repository
+    language: fail
+    entry: 'submodules are not allowed in this repository:'
+    types: [directory]
+
+  - id: mixed-line-ending
+    name: check for mixed line ending
+    description: checks for mixed line ending.
+    entry: mixed-line-ending --fix no
+    language: system
+    types: [text]
+
+  - id: name-tests-test
+    name: check python tests naming
+    description: verifies that test files are named correctly.
+    entry: name-tests-test --pytest-test-first
+    language: system
+    files: (^|/)tests/.+\.py$

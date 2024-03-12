@@ -5,19 +5,17 @@ on:
   push:
 
 jobs:
-  nix:
+  test-nix:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: DeterminateSystems/nix-installer-action@main
-    - uses: DeterminateSystems/magic-nix-cache-action@main
-    - run: nix build --no-link
-    - run: nix develop -c pytest -vvv
-    - run: nix develop -c ruff check .
-    - run: nix develop -c ruff format --check .
-    - run: nix flake check --all-systems
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix build --no-link
+      - run: nix develop -c pytest -vvv
+      - run: nix flake check --all-systems
 
-  pytest:
+  test-pypi:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,16 +25,20 @@ jobs:
       - run: pip3 install -U setuptools pip '.[test]'
       - run: pytest -vvv
 
-  ruff:
+  lint-nix:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: chartboost/ruff-action@v1
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix develop -c pre-commit run -av
 
-  ruff-format:
+  lint-pypi:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: chartboost/ruff-action@v1
+      - uses: actions/setup-python@v5
         with:
-          args: format --check .
+          python-version: '3.12'
+      - run: pip3 install -U setuptools pip '.[test,lint]'
+      - run: pre-commit run -av
