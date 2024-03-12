@@ -31,6 +31,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: pip install -U setuptools pip
       - run: pip install cookiecutter
       - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
@@ -49,6 +51,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: pip install cookiecutter
       - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
       - run: cookiecutter . --no-input -o /tmp/test project_name=l_i-b initial_year=2023 kind=library

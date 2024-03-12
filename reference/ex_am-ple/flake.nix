@@ -40,7 +40,7 @@
       flake-utils.lib.eachDefaultSystem (system:
         let
           pkgs = import nixpkgs { inherit system; overlays = [ overlay-all ]; };
-          defaultPython3Packages = pkgs.python310Packages;  # force 3.10
+          defaultPython3Packages = pkgs.python312Packages;  # force 3.12
 
           ex-am-ple = defaultPython3Packages.ex-am-ple;
           app = flake-utils.lib.mkApp {

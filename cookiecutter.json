@@ -9,7 +9,7 @@
     "description": "TODO: fill in",
     "initial_year": "{% now 'utc', '%Y' %}",
     "version": "0.0.1",
-    "min_python": "3.10",
+    "min_python": "3.12",
     "kind": ["application", "library"],
     "license_spdx": [ "CC0-1.0", "MIT", "GPL-3.0", "GPL-3.0+" ]
 }
