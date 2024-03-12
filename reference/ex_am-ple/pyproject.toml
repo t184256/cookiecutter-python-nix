@@ -51,6 +51,7 @@ lint.ignore = [
   "D105",  # undocumented-magic-method
   "D203",  # one-blank-line-before-class
   "D213",  # multi-line-summary-second-line
+  "Q001",  # bad-quotes-multiline-string
 ]
 lint.per-file-ignores."tests/**" = [
   "INP001",  # implicit-namespace-package
