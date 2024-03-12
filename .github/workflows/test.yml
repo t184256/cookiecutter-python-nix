@@ -36,12 +36,12 @@ jobs:
       - run: pip install -U setuptools pip
       - run: pip install cookiecutter
       - run: cookiecutter . --no-input -o /tmp/test project_name=ex_am-ple initial_year=2023
-      - run: pip install /tmp/test/ex_am-ple[test]
+      - run: pip install '/tmp/test/ex_am-ple[test]'
       - run: sh -c 'cd /tmp/test/ex_am-ple && pytest -vvv'
       - run: sh -c 'cd /tmp/test/ex_am-ple && ruff .'
       - run: sh -c 'cd /tmp/test/ex_am-ple && ruff format --check .'
       - run: cookiecutter . --no-input -o /tmp/test project_name=l_i-b initial_year=2023 kind=library
-      - run: pip install /tmp/test/l_i-b[test]
+      - run: pip install '/tmp/test/l_i-b[test]'
       - run: sh -c 'cd /tmp/test/l_i-b && pytest -vvv'
       - run: sh -c 'cd /tmp/test/l_i-b && ruff .'
       - run: sh -c 'cd /tmp/test/l_i-b && ruff format --check .'
