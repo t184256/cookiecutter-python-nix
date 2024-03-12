@@ -15,7 +15,7 @@ jobs:
     - run: nix develop -c pytest -vvv
     - run: nix develop -c ruff check .
     - run: nix develop -c ruff format --check .
-    - run: nix flake check
+    - run: nix flake check --all-systems
 
   pytest:
     runs-on: ubuntu-latest
